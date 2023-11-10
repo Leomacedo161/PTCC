@@ -16,11 +16,11 @@ def gerar_equacao(operadores, valor_minimo, valor_maximo):
         resultado = valor1 * valor2
     elif operador == '/':
         if valor2 == 0:
-            resultado = 0  # Definir um valor padrão para divisão por zero
+            resultado = 0  # Lidar com a divisão por zero
         else:
             resultado = valor1 / valor2
 
-    return valor1, valor2, operador, resultado
+    return valor1, valor2, operador, round(resultado)
 
 def operador_para_nome(operador):
     operador_dict = {
@@ -30,8 +30,6 @@ def operador_para_nome(operador):
         '/': 'divisao'
     }
     return operador_dict.get(operador, 'desconhecido')
-
-import os
 
 def gerar_equacao_csv(operador, num_equacoes, nome_arquivo):
     operadores = ['+', '-', '*', '/']
@@ -49,11 +47,11 @@ def gerar_equacao_csv(operador, num_equacoes, nome_arquivo):
     total_dados = len(dados)
     tamanho_treino = math.ceil(0.75 * total_dados)
     tamanho_validacao = math.ceil(0.15 * total_dados)
-    tamanho_teste = math.ceil(0.15 * total_dados)
+    tamanho_teste = total_dados - tamanho_treino - tamanho_validacao
 
     dados_treino = dados[:tamanho_treino]
     dados_validacao = dados[tamanho_treino:tamanho_treino + tamanho_validacao]
-    dados_teste = dados[tamanho_treino:tamanho_treino + tamanho_teste]
+    dados_teste = dados[tamanho_treino + tamanho_validacao:]
 
     if nome_arquivo:
         # Criar pastas para treinamento, validação e teste
